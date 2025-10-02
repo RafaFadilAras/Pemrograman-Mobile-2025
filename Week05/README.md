@@ -118,6 +118,3 @@ Selesaikan Codelabs: Your first Flutter app
 - **Menambahkan halaman baru**
 
     ![new_page](img/new_page.gif)
-
-
-
