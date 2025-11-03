@@ -271,3 +271,42 @@
   
         ![soal6](img/soal/soal6.gif)
 
+## Praktikum 4 - Memanggil Future secara paralel
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buka file main.dart
+  
+    ```dart
+      void returnFG() {
+        FutureGroup<int> futureGroup = FutureGroup<int>();
+        futureGroup.add(returnOneAsync());
+        futureGroup.add(returnTwoAsync());
+        futureGroup.add(returnThreeAsync());
+        futureGroup.close();
+
+        futureGroup.future.then((List<int> value) {
+        int total = 0;
+        for (var element in value) {
+            total += element;
+        }
+        setState(() {
+            result = total.toString();
+        });
+        });
+    }
+    ```
+
+- Langkah 2 - Edit onPressed()
+
+    ```dart
+    returnFG();
+    ```
+
+- Langkah 3 - Run
+  - **Soal 7**
+    
+    Capture hasil 
+
+    ![soal7](img/soal/soal7.gif)
+  
