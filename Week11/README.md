@@ -135,3 +135,58 @@
 
         ![soal3](img/soal/soal3.gif)
 
+## Praktikum 2 - Menggunakan await/async untuk menghindari callbacks
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buka file main.dart
+  
+    ```dart
+    Future<int> returnOneAsync() async {
+        await Future.delayed(const Duration(seconds: 3));
+        return 1;
+    }
+
+    Future<int> returnTwoAsync() async {
+        await Future.delayed(const Duration(seconds: 3));
+        return 2;
+    }
+
+    Future<int> returnThreeAsync() async {
+        await Future.delayed(const Duration(seconds: 3));
+        return 3;
+    }
+    ```
+
+- Langkah 2 - Tambah method count()
+  
+    ```dart
+    Future count() async {
+        int total = 0;
+        total = await returnOneAsync();
+        total += await returnTwoAsync();
+        total += await returnThreeAsync();
+        setState(() {
+            result = total.toString();
+        });
+    }
+    ```
+
+- Langkah 3 - Panggil count()
+  
+    ```dart
+        count();
+    ```
+
+- Langkah 4 - Run
+  - **Soal 4**
+    - Jelaskan maksud kode langkah 1 dan 2
+  
+        Pada langkah 1, tiga method asynchronous (returnOneAsync(), returnTwoAsync(), dan returnThreeAsync()) digunakan untuk mensimulasikan proses yang memerlukan waktu, seperti mengambil data dari server atau menjalankan perhitungan yang tidak langsung selesai. Masing-masing method menggunakan Future.delayed selama tiga detik sebelum mengembalikan nilai 1, 2, atau 3.
+
+        Pada langkah 2, method count() berfungsi untuk memanggil ketiga method tersebut secara berurutan menggunakan keyword await. Nilai yang dikembalikan dari setiap method dijumlahkan ke dalam variabel total, lalu hasilnya diubah menjadi string dan ditampilkan pada layar melalui setState().
+
+    - Hasil
+
+        ![soal4](img/soal/soal4.gif)
+
