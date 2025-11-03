@@ -310,3 +310,54 @@
 
     ![soal7](img/soal/soal7.gif)
   
+- Langkah 4 - Ganti variabel futureGroup
+
+    ```dart
+    final futures = Future.wait<int>([
+      returnOneAsync(),
+      returnTwoAsync(),
+      returnThreeAsync(),
+    ]);
+    ```
+
+  - **Soal 8**
+    - Jelaskan maksud perbedaan kode langkah 1 dan 4!
+
+        Perbedaan langkah 1 dan 4 terletak pada cara menjalankan beberapa proses asynchronous secara bersamaan. Pada langkah 1 digunakan FutureGroup, di mana setiap Future harus ditambahkan satu per satu lalu ditutup dengan close(). Sedangkan pada langkah 4 digunakan Future.wait, yang lebih sederhana karena cukup menampung semua Future dalam satu list tanpa perlu membuat objek tambahan. Hasil akhirnya sama, tetapi Future.wait lebih efisien dan mudah dibaca.
+  
+## Praktikum 5 - Menangani Respon Error pada Async Code
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buka file main.dart
+
+    ```dart
+    Future returnError() async {
+        await Future.delayed(const Duration(seconds: 2));
+        throw Exception('Something terrible happened!');
+    }
+    ```
+
+- Langkah 2 - ElevatedButton
+
+    ```dart
+    returnError()
+        .then((value) {
+        setState(() {
+            result = 'Success';
+        });
+    }).catchError((onError) {
+        setState(() {
+            result = onError.toString();
+        });
+    }).whenComplete(() => print('Complete'));
+    ```
+
+- Langkah 3 - Run
+  - **Soal 9**
+    
+    Capture Hasil
+
+    ![soal9](img/soal/soal9.gif)
+    ![soal9](img/soal/soal9.png)
+
