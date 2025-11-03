@@ -237,3 +237,37 @@
   
         ![soal5](img/soal/soal5.gif)
   
+- Langkah 5 - Ganti method calculate()
+
+    ```dart
+    Future calculate() async {
+        try {
+            await new Future.delayed(const Duration(seconds: 5));
+            completer.complete(42);
+        } catch (e) {
+            completer.completeError(e);
+        }
+    }
+    ```
+
+- Langkah 6 - Pindah ke onPressed()
+
+    ```dart
+    getNumber().then((value) {
+        setState(() {
+            result = value.toString();
+        });
+    }).catchError((e) {
+        result = 'An error occurred';
+    });
+    ```
+
+    - **Soal 6**
+      - Jelaskan maksud perbedaan kode langkah 2 dengan langkah 5 & 6
+
+        Pada langkah 2, kode hanya menjalankan proses asynchronous sederhana tanpa penanganan kesalahan, sehingga jika terjadi error, program akan berhenti. Sedangkan pada langkah 5 dan 6, kode diperbarui dengan menambahkan blok try-catch di dalam method calculate() dan fungsi catchError() saat memanggil getNumber(). Sehingga program bisa mendeteksi dan menangani error dengan aman, dan memberikan pesanyang sesuai tanpa menyebabkan aplikasi crash.
+
+      - Hasil 
+  
+        ![soal6](img/soal/soal6.gif)
+
