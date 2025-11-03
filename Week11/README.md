@@ -361,3 +361,29 @@
     ![soal9](img/soal/soal9.gif)
     ![soal9](img/soal/soal9.png)
 
+- Langkah 4 - Tambah method handleError()
+  
+    ```dart
+    Future handleError() async {
+        try {
+        await returnError();
+        }
+        catch (error) {
+        setState(() {
+            result = error.toString();
+        });
+        }
+        finally {
+        print('Complete');
+        }
+    }
+    ```
+
+  - **Soal 10**
+    - Panggil method handleError() di ElevatedButton, lalu run. Apa hasilnya? Jelaskan perbedaan kode langkah 1 dan 4!
+    
+    ![soal10](img/soal/soal10.gif)
+    ![soal10](img/soal/soal10.png)
+
+    Hasil pada langkah 4 ini menampilkan teks "Exception: Something terrible happened!" pada layar. Perbedaannya adalah pada langkah 1, method returnError() hanya membuat kesalahan (error) dengan melempar exception setelah menunggu 2 detik, tanpa menanganinya. Sedangkan pada langkah 4, method handleError() memanggil returnError() lalu menangani error-nya dengan try-catch-finally.
+

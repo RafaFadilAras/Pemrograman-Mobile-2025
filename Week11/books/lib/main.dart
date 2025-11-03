@@ -71,6 +71,20 @@ class _FuturePageState extends State<FuturePage> {
     throw Exception('Something terrible happened!');
   }
 
+  Future handleError() async {
+    try {
+      await returnError();
+    }
+    catch (error) {
+      setState(() {
+        result = error.toString();
+      });
+    }
+    finally {
+      print('Complete');
+    }
+  }
+
   void returnFG() {
     final futures = Future.wait<int>([
       returnOneAsync(),
@@ -137,15 +151,16 @@ class _FuturePageState extends State<FuturePage> {
                 //     .catchError((e) {
                 //       result = 'An error occurred';
                 //     });
-                returnError().then((value) {
-                  setState(() {
-                    result = 'Success';
-                  });
-                }).catchError((onError) {
-                  setState(() {
-                    result = onError.toString();
-                  });
-                }).whenComplete(() => print('Complete'));
+                // returnError().then((value) {
+                //   setState(() {
+                //     result = 'Success';
+                //   });
+                // }).catchError((onError) {
+                //   setState(() {
+                //     result = onError.toString();
+                //   });
+                // }).whenComplete(() => print('Complete'));
+                handleError();
               },
             ),
             const Spacer(),
