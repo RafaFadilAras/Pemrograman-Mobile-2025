@@ -106,3 +106,32 @@
   
         ![soal2](img/soal/soal2.png)
   
+- Langkah 5 - Tambah kode di ElevatedButton
+  ```dart
+    const Spacer(),
+            ElevatedButton(
+              child: const Text('GO!'),
+              onPressed: () {
+                setState(() {});
+                getData()
+                    .then((value) {
+                      result = value.body.toString().substring(0, 450);
+                      setState(() {});
+                    })
+                    .catchError((_) {
+                      result = 'An error occurred';
+                      setState(() {});
+                    });
+              },
+            ),
+    ```
+
+  - **Soal 3**
+    - Jelaskan maksud kode langkah 5 terkait substring dan catchError
+
+        Kode substring(0,450) digunakan untuk membatasi jumlah karakter dari data yang ditampilkan. saat tombol "GO!" di klik, aplikasi mengambil data dari API Google Books. Kode catchError berfungsi untuk menangani kemungkinan kesalahan saat pengambilan data, seperti koneksi internet yang bermasalah atau URL tidak valid. Jika error, aplikasi tidak akan berhenti tiba-tiba, tetapi akan menampilkan pesan "An error occurred" di layar untuk memberi tahu pengguna. 
+
+    - Hasil
+
+        ![soal3](img/soal/soal3.gif)
+
