@@ -190,3 +190,50 @@
 
         ![soal4](img/soal/soal4.gif)
 
+## Praktikum 3 - Menggunakan Completer di Future
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buka main.dart
+
+    ```dart
+    import 'package:async/async.dart';
+    ```
+
+- Langkah 2 - Tambahkan variabel dan method
+
+    ```dart
+    late Completer completer;
+
+    Future getNumber() {
+    completer = Completer<int>();
+    calculate();
+    return completer.future;
+    }
+
+    Future calculate() async {
+    await Future.delayed(const Duration(seconds : 5));
+    completer.complete(42);
+    }
+    ```
+
+- Langkah 3 - Ganti isi kode onPressed()
+
+    ```dart
+    getNumber().then((value) {
+            setState(() {
+            result = value.toString();
+        });
+    });
+    ```
+
+- Langkah 4 - Run
+  - **Soal 5**
+    - Jelaskan maksud kode langkah 2
+
+        kode program tersebut membuat proses asynchronous menggunakan Completer. Fungsi getNumber() memulai proses perhitungan dengan memanggil calculate(), lalu calculate() menunggu 5 detik sebelum mengembalikan hasil bernilai 42. Intinya, Completer digunakan agar program bisa menunggu hasil dari proses yang berlangsung secara tidak langsung (asynchronous).
+
+    - Hasil 
+  
+        ![soal5](img/soal/soal5.gif)
+  
