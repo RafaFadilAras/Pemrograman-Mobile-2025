@@ -491,3 +491,64 @@
   
         ![soal12](img/soal/soal12.gif)
 
+## Praktikum 7 - Manajemen Future dengan FutureBuilder
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Modifikasi method getPosition()
+
+    ```dart
+    await Future.delayed(const Duration(seconds: 3));
+    ```
+
+- Langkah 2 - Tambah variabel
+
+    ```dart
+    Future<Position>? position;
+    ```
+
+- Langkah 3 - Tambah initState()
+
+    ```dart
+    @override
+    void initState() {
+        super.initState();
+        position = getPosition();
+    }
+    ```
+
+- Langkah 4 - Edit method build()
+
+    ```dart
+      @override
+        Widget build(BuildContext context) {
+            return Scaffold(
+            appBar: AppBar(title: Text('Current Location Rafa')),
+            body: Center(child: FutureBuilder(
+            future: position,
+            builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+                }
+                else if (snapshot.connectionState ==
+                ConnectionState.done) {
+                return Text(snapshot.data.toString());
+                }
+                else {
+                return const Text('');
+                }
+            },
+            ),
+            ));
+        }
+    ```
+
+  - **Soal 13**
+    - Apakah ada perbedaan UI dengan praktikum sebelumnya? Mengapa demikian?
+  
+        UI pada praktikum ini berbeda dari sebelumnya karena menggunakan FutureBuilder untuk menampilkan data lokasi secara asinkron. Tampilan awal menunjukkan indikator loading, kemudian berubah menampilkan data posisi setelah proses pengambilan lokasi selesai.
+
+    - Capture hasil
+
+        ![soal13](img/soal/soal13.gif)
+  
