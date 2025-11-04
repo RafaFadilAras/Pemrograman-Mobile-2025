@@ -689,7 +689,6 @@
     ```
 
 - Langkah 7 - Run
-  
   - **Soal 16**
     - Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
   
@@ -725,3 +724,123 @@
 
         ![soal16](img/soal/soal16.gif)
 
+## Praktikum 9 - Memanfaatkan async/await dengan Widget Dialog
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buat file baru navigation_dialog.dart
+- Langkah 2 - Isi kode navigation_dialog.dart
+
+    ```dart
+    import 'package:flutter/material.dart';
+
+    class NavigationDialogScreen extends StatefulWidget {
+    const NavigationDialogScreen({super.key});
+
+    @override
+    State<NavigationDialogScreen> createState() => _NavigationDialogScreenState();
+    }
+
+    class _NavigationDialogScreenState extends State<NavigationDialogScreen> {
+    Color color = Colors.blue.shade700;
+    
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+        backgroundColor: color,
+        appBar: AppBar(
+            title: const Text('Navigation Dialog Screen Rafa'),
+        ),
+        body: Center(
+            child: ElevatedButton(child: const Text('Change Color'),
+            onPressed: (){}),
+            ),
+        ); 
+    }
+    }
+    ```
+
+- Langkah 3 - Tambah method async
+
+    ```dart
+    _showColorDialog(BuildContext context) async {
+        await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+            return AlertDialog(
+            title: const Text('Very important question'),
+            content: const Text('Please choose a color'),
+            actions: <Widget>[
+                TextButton(
+                child: const Text('Red'),
+                onPressed: () {
+                    color = Colors.red.shade700;
+                    Navigator.pop(context, color);
+                }),
+                TextButton(
+                child: const Text('Green'),
+                onPressed: () {
+                    color = Colors.green.shade700;
+                    Navigator.pop(context, color);
+                }),
+                TextButton(
+                child: const Text('Blue'),
+                onPressed: () {
+                    color = Colors.blue.shade700;
+                    Navigator.pop(context, color);
+                }),
+            ],
+            );
+        },
+        );
+        setState(() {});
+    }
+    ```
+
+- Langkah 4 - Panggil method di ElevatedButton
+
+    ```dart
+    onPressed: (){
+          _showColorDialog(context);
+    }),
+    ```
+
+- Langkah 5 - Edit main.dart
+
+    ```dart
+    home: const NavigationDialogScreen(),
+    ```
+
+- Langkah 6 - Run
+  - **Soal 17**
+    - Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
+  
+        Ketika tombol “Change Color” ditekan, akan muncul dialog berisi tiga pilihan warna. Jika pengguna menekan salah satu tombol warna (Red, Green, atau Blue), dialog akan tertutup dan mengubah warna latar belakang layar sesuai pilihan tersebut. Hal ini terjadi karena setiap tombol pada dialog memanggil Navigator.pop(context, color) untuk menutup dialog sambil mengirimkan nilai warna baru, kemudian setState() digunakan untuk memperbarui tampilan sesuai warna yang dipilih.
+
+    - Ganti 3 warna pada langkah 5 dengan warna favorit 
+
+        ```dart
+            TextButton(
+              child: const Text('Blue'),
+              onPressed: () {
+                color = Colors.blue.shade300;
+                Navigator.pop(context, color);
+              }),
+            TextButton(
+              child: const Text('Green'),
+              onPressed: () {
+                color = Colors.green.shade300;
+                Navigator.pop(context, color);
+              }),
+            TextButton(
+              child: const Text('Red'),
+              onPressed: () {
+                color = Colors.red.shade300;
+                Navigator.pop(context, color);
+              }),
+        ```
+
+    - Capture hasil
+
+        ![soal17](img/soal/soal17.gif)
