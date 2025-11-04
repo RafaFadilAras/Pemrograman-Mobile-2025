@@ -387,3 +387,107 @@
 
     Hasil pada langkah 4 ini menampilkan teks "Exception: Something terrible happened!" pada layar. Perbedaannya adalah pada langkah 1, method returnError() hanya membuat kesalahan (error) dengan melempar exception setelah menunggu 2 detik, tanpa menanganinya. Sedangkan pada langkah 4, method handleError() memanggil returnError() lalu menangani error-nya dengan try-catch-finally.
 
+## Praktikum 6 - Menggunakan Future dengan StatefulWidget
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Install plugin geolocator
+
+    ![langkah1](img/prak6/langkah1.png)
+
+- Langkah 2 - Tambah permission GPS
+
+    ```dart
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    ```
+
+- Langkah 3 - Buat file geolocation.dart
+- Langkah 4 - Buat StatefulWidget
+- Langkah 5 - Isi kode geolocation.dart
+
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:geolocator/geolocator.dart';
+
+    class LocationScreen extends StatefulWidget {
+    const LocationScreen({super.key});
+
+    @override
+    State<LocationScreen> createState() => _LocationScreenState();
+    }
+
+    class _LocationScreenState extends State<LocationScreen> {
+    String myPosition = '';
+    @override
+    void initState() {
+        super.initState();
+        getPosition().then((Position myPos) {
+        myPosition = 
+            'Latitude: ${myPos.latitude.toString()}, Longitude: ${myPos.longitude.toString()}';
+            setState(() {
+            myPosition = myPosition;
+            });
+        });
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+        appBar: AppBar(title: const Text('Geolocation Example')),
+            body: Center(child: Text(myPosition)),
+        );
+    }
+    Future<Position> getPosition() async {
+        await Geolocator.requestPermission();
+        await Geolocator.isLocationServiceEnabled();
+        Position? position = 
+        await Geolocator.getCurrentPosition();
+        return position;
+    }
+    }
+    ```
+
+  - **Soal 11**
+  
+    Tambahkan nama panggilan pada tiap properti title
+
+    ```dart
+    appBar: AppBar(title: const Text('Geolocation Example Rafa')),
+    ```
+
+- Langkah 6 - Edit main.dart
+
+    ```dart
+    home: LocationScreen(),
+    ```
+
+- Langkah 7 - Run
+
+    ![langkah7](img/prak6/langkah7.png)
+
+- Langkah 8 - Tambahkan animasi loading
+
+    ```dart
+      @override
+        Widget build(BuildContext context) {
+            final myWidget = myPosition == ''
+            ? const CircularProgressIndicator()
+            : Text(myPosition);
+
+            return Scaffold(
+            appBar: AppBar(title: const Text('Geolocation Example Rafa')),
+                body: Center(child: myWidget),
+            );
+      }
+    ```
+
+  - **Soal 12**
+    - Apakah Anda mendapatkan koordinat GPS ketika run di browser? Mengapa demikian?
+  
+        Ya, melihat. Karena kode Flutter memanggil Geolocator.getCurrentPosition(), di web versi plugin geolocator otomatis meneruskan permintaan itu ke Geolocation API milik browser.
+
+    - Capture hasil 
+  
+        ![soal12](img/soal/soal12.gif)
+
