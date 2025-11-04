@@ -569,3 +569,159 @@
 
         ![soal14](img/soal/soal14.gif)
 
+## Praktikum 8 - Navigation route dengan Future Function
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buat file baru navigation_first.dart
+- Langkah 2 - Isi kode navigation_first.dart
+
+    ```dart
+    import 'package:flutter/material.dart';
+
+    class NavigationFirst extends StatefulWidget {
+    const NavigationFirst({super.key});
+
+    @override
+    State<NavigationFirst> createState() => _NavigationFirstState();
+    }
+
+    class _NavigationFirstState extends State<NavigationFirst> {
+    Color color = Colors.blue.shade700;
+
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+        backgroundColor: color,
+        appBar: AppBar(
+            title: const Text('Navigation First Screen Rafa'),
+        ),
+        body: Center(
+            child: ElevatedButton(
+            child: const Text('Change Color'),
+            onPressed: () {
+                _navigateAndGetColor(context);
+            },
+            ),
+        ),
+        );
+    }
+    }
+    ```
+
+  - **Soal 15** 
+    - Tambahkan nama panggilan pada tiap properti title
+  
+        ```dart
+        title: const Text('Navigation First Screen Rafa'),
+        ```
+
+    - Ganti warna dengan tema favorit
+
+        ```dart
+        Color color = Colors.pink.shade200;
+        ```
+  
+- Langkah 3 - Tambah method di class _NavigationFirstState
+
+    ```dart
+    Future _navigateAndGetColor(BuildContext context) async {
+        color =
+            await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NavigationSecond()),
+            ) ??
+            Colors.blue;
+
+        setState(() {});
+    }
+    ```
+
+- Langkah 4 - Buat file baru navigation_second.dart
+- Langkah 5 - Buat class NavigationSecond dengan StatefulWidget
+
+    ```dart
+    import 'package:flutter/material.dart';
+
+    class NavigationSecond extends StatefulWidget {
+    const NavigationSecond({super.key});
+
+    @override
+    State<NavigationSecond> createState() => _NavigationSecondState();
+    }
+
+    class _NavigationSecondState extends State<NavigationSecond> {
+    @override
+    Widget build(BuildContext context) {
+        Color color;
+        return Scaffold(
+        appBar: AppBar(title: const Text('Navigation Second Screen Rafa')),
+        body: Center(
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+                ElevatedButton(
+                child: const Text('Green'),
+                onPressed: () {
+                    color = Colors.green.shade700;
+                    Navigator.pop(context, color);
+                },
+                ),
+                ElevatedButton(
+                child: const Text('Blue'),
+                onPressed: () {
+                    color = Colors.blue.shade700;
+                    Navigator.pop(context, color);
+                },
+                ),
+            ],
+            ),
+        ),
+        );
+    }
+    }
+    ```
+
+- Langkah 6 - Edit main.dart
+
+    ```dart
+    home: const NavigationFirst(),
+    ```
+
+- Langkah 7 - Run
+  
+  - **Soal 16**
+    - Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
+  
+        Ketika tombol “Green” atau “Blue” ditekan pada halaman Navigation Second, halaman tersebut akan tertutup dan mengirimkan nilai warna yang dipilih ke halaman sebelumnya menggunakan fungsi Navigator.pop(context, color). Nilai warna yang diterima kemudian digunakan untuk memperbarui latar belakang halaman Navigation First melalui setState(), sehingga warna background berubah sesuai tombol yang diklik.
+
+    - Ganti 3 warna pada langkah 5 dengan warna favorit 
+
+        ```dart
+            ElevatedButton(
+              child: const Text('Blue'),
+              onPressed: () {
+                color = Colors.blue.shade300;
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Green'),
+              onPressed: () {
+                color = Colors.green.shade300;
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Red'),
+              onPressed: () {
+                color = Colors.red.shade300;
+                Navigator.pop(context, color);
+              },
+            ),
+        ```
+
+    - Capture hasil
+
+        ![soal16](img/soal/soal16.gif)
+
