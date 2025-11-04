@@ -552,3 +552,20 @@
 
         ![soal13](img/soal/soal13.gif)
   
+- Langkah 5 - Tambah handling error
+
+    ```dart
+    if (snapshot.hasError) {
+        return Text('Something terrible happened!');
+    }
+    ```
+
+  - **Soal 14**
+    - Apakah ada perbedaan UI dengan langkah sebelumnya? Mengapa demikian?
+  
+        Adanya penambahan kode untuk handling error yang berfungsi untuk menangani jika terjadi error. Misalnya, jika izin tidak diberikan atau terjadi error maka akan menampilkan pesan di layar. 
+
+    - Capture hasil
+
+        ![soal14](img/soal/soal14.gif)
+
