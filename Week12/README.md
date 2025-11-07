@@ -55,3 +55,31 @@
         ```dart
         primarySwatch: Colors.lightBlue,
         ```
+- Langkah 3 - Buat file baru stream.dart
+  ```dart
+  import 'package:flutter/material.dart';
+
+    class ColorStream {
+    
+    }
+  ```
+- Langkah 4 - Tambah variabel colors
+  ```dart
+    final List<Color> _colors = [
+    Colors.blueGrey,
+    Colors.amber,
+    Colors.deepPurple,
+    Colors.lightBlue,
+    Colors.teal
+  ];
+  ```
+  - **Soal 2**
+
+    Menambahkan 5 warna pada variabel colors
+    ```dart
+    Colors.pink,
+    Colors.brown,
+    Colors.cyan,
+    Colors.orangeAccent,
+    Colors.lime
+    ```
