@@ -468,3 +468,119 @@
   
       ![hasilprak5](img/hasilprak5.gif)
 
+
+## Praktikum 6 - StreamBuilder
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buat project baru
+- Langkah 2 - Buat file baru stream.dart
+  ```dart
+  class NumberStream {}
+  ```
+- Langkah 3 - Tetap di file stream.dart
+  ```dart
+  import 'dart:math';
+
+  class NumberStream {
+    Stream<int> getNumbers() async* {
+      yield* Stream.periodic(const Duration(seconds: 1), (int t) {
+        Random random = Random();
+        int myNum = random.nextInt(10);
+        return myNum;
+      });
+    }
+  }
+  ```
+- Langkah 4 - Edit main.dart
+  ```dart
+  import 'package:flutter/material.dart';
+  import 'stream.dart';
+  import 'dart:async';
+
+  void main() {
+    runApp(const MyApp());
+  }
+
+  class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        title: 'Stream Rafa',
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+        ),
+        home: const StreamHomePage(),
+      );
+    }
+  }
+
+  class StreamHomePage extends StatefulWidget {
+    const StreamHomePage({super.key});
+
+    @override
+    State<StreamHomePage> createState() => _StreamHomePageState();
+  }
+
+  class _StreamHomePageState extends State<StreamHomePage> {
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Stream Rafa'),
+        ),
+        body: Container(
+
+        ),
+      );
+    }
+  }
+  ```
+- Langkah 5 - Tambah variabel
+  ```dart
+  late Stream<int> numberStream;
+  ```
+- Langkah 6 - Edit initState()
+  ```dart
+    @override
+    void initState() {
+      numberStream = NumberStream().getNumbers();
+      super.initState();
+    }
+  ```
+- Langkah 7 - Edit method build()
+  ```dart
+  body: StreamBuilder(
+        stream: numberStream,
+        initialData: 0,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print('Error!');
+          }
+          if (snapshot.hasData) {
+            return Center(
+              child: Text(
+                snapshot.data.toString(),
+                style: const TextStyle(fontSize: 96),
+              ),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        }
+      ),
+  ```
+- Langkah 8 - Run
+  - **Soal 12**
+    - Jelaskan maksud kode pada langkah 3 dan 7!
+
+      Pada langkah 3, membuat sebuah kelas bernama NumberStream yang menghasilkan aliran data berupa angka acak setiap satu detik menggunakan Stream.periodic. Setiap kali stream berjalan, fungsi ini memanggil Random() untuk menghasilkan angka acak antara 0 hingga 9, lalu mengirimkannya (yield) ke stream secara berulang.
+
+      Sedangkan pada langkah 7, kode di build() menggunakan StreamBuilder untuk menampilkan data dari stream tersebut secara real-time di layar. Setiap kali stream mengirim angka baru, StreamBuilder otomatis membangun ulang tampilan (rebuild) dan memperbarui teks di tengah layar dengan nilai terbaru. Jika ada error pada stream, maka akan dicetak pesan “Error!”.
+
+    - Capture hasil 
+
+        ![hasilprak6](img/hasilprak6.gif)
+
