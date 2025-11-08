@@ -275,3 +275,28 @@
 
       ![hasilprak2](img/hasilprak2.gif)
 
+- Langkah 13 - Tambah method addError()
+  ```dart
+    addError() {
+    controller.sink.addError('error');
+  }
+  ```
+- Langkah 14 - Tambah method onError
+  ```dart
+    }).onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+  ```
+- Langkah 15 - Edit method addRandomNumber()
+  ```dart
+    numberStream.addError();
+  ```
+  - **Soal 7**
+    
+    Jelaskan maksud kode langkah 13 - 15!
+
+    Pada langkah 13, method addError() ditambahkan di dalam stream.dart untuk mengirimkan data kesalahan (error) ke aliran stream menggunakan controller.sink.addError('error'). Pada langkah 14 menambahkan penanganan error pada main.dart dengan menambahkan method onError di dalam fungsi listen, sehingga jika stream mengirimkan error, aplikasi akan menampilkan nilai lastNumber = -1 sebagai tanda terjadi kesalahan. Sedangkan pada langkah 15, method addRandomNumber() diperbarui dengan mengomentari kode pengiriman angka acak dan menggantinya dengan pemanggilan numberStream.addError(), agar dapat menguji bagaimana aplikasi menangani kondisi error yang dikirim dari stream.
+
+    ![hasilprak2](img/hasilprak2(error).gif)
