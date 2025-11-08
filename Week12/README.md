@@ -346,3 +346,73 @@
     - Capture hasil 
 
         ![hasilprak3](img/hasilprak3.gif)
+
+
+## Praktikum 4 - Subscribe ke stream events
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Tambah variabel baru di class _StreamHomePageState
+  ```dart
+  late StreamSubscription subscription;
+  ```
+- Langkah 2 - Edit initState()
+  ```dart
+      subscription = stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    });
+  ```
+- Langkah 3 - Tambahkan kode di initState()
+  ```dart
+      subscription.onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+  ```
+- Langkah 4 - Tambah properti onDone()
+  ```dart
+      subscription.onDone(() {
+      print('OnDone was called');
+    });
+  ```
+- Langkah 5 - Tambah method baru
+  ```dart
+    void stopStream() {
+    numberStreamController.close();
+  }
+  ```
+- Langkah 6 - Pindah ke method dispose()
+  ```dart
+  subscription.cancel();
+  ```
+- Langkah 7 - Pindah ke method build()
+  ```dart
+  ElevatedButton(
+    onPressed: () => stopStream(),
+    child: const Text('Stop Subscription'),
+  ),
+  ```
+- Langkah 8 - Edit method addRandomNumber()
+  ```dart
+      if (!numberStreamController.isClosed) {
+      numberStream.addNumberToSink(myNum);
+    } else {
+      setState(() {
+        lastNumber = -1;
+      });
+    }
+  ```
+- Langkah 9 - Run
+- Langkah 10 - Tekan button 'Stop Subscription'
+  ![stopsubscription](img/stopsubscription.png)
+  - **Soal 9**
+    - Jelaskan maksud kode langkah 2,6 dan 8!
+      
+      Pada langkah 2, kode dalam initState() berfungsi untuk memulai proses listen aliran data dari stream. Setiap kali ada data baru yang dikirim ke stream, nilai tersebut disimpan ke variabel lastNumber melalui setState(), sehingga tampilan aplikasi akan otomatis diperbarui sesuai data terbaru. Pada langkah 6, kode subscription.cancel() di dalam dispose() digunakan untuk menghentikan proses mendengarkan stream ketika widget dihapus dari tampilan, agar tidak terjadi kebocoran memori. Sedangkan pada langkah 8, bagian kode di addRandomNumber() memastikan bahwa data baru hanya dikirim ke stream jika numberStreamController masih terbuka. Jika sudah ditutup, maka nilai lastNumber diubah menjadi -1 sebagai penanda bahwa stream sudah tidak aktif lagi.
+
+    - Capture hasil 
+
+        ![hasilprak4](img/hasilprak4.gif)
