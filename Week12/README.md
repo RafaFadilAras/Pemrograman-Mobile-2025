@@ -300,3 +300,49 @@
     Pada langkah 13, method addError() ditambahkan di dalam stream.dart untuk mengirimkan data kesalahan (error) ke aliran stream menggunakan controller.sink.addError('error'). Pada langkah 14 menambahkan penanganan error pada main.dart dengan menambahkan method onError di dalam fungsi listen, sehingga jika stream mengirimkan error, aplikasi akan menampilkan nilai lastNumber = -1 sebagai tanda terjadi kesalahan. Sedangkan pada langkah 15, method addRandomNumber() diperbarui dengan mengomentari kode pengiriman angka acak dan menggantinya dengan pemanggilan numberStream.addError(), agar dapat menguji bagaimana aplikasi menangani kondisi error yang dikirim dari stream.
 
     ![hasilprak2](img/hasilprak2(error).gif)
+
+## Praktikum 3 - Injeksi data ke streams
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Tambah variabel baru di class _StreamHomePageState
+  ```dart
+  late StreamTransformer transformer;
+  ```
+- Langkah 2 - Tambahkan kode ini di initState
+  ```dart
+      transformer = StreamTransformer<int, int>.fromHandlers(
+      handleData: (value, sink) {
+        sink.add(value * 10);
+      },
+      handleError: (error, trace, sink) {
+        sink.add(-1);
+      },
+      handleDone: (sink) => sink.close());
+  ```
+- Langkah 3 - Tetap di initState
+  ```dart
+      stream
+        .transform(transformer)
+        .listen((event) {
+          setState(() {
+            lastNumber = event;
+          });
+        })
+        .onError((error) {
+          setState(() {
+            lastNumber = -1;
+          });
+        });
+
+    super.initState();
+  ```
+- Langkah 4 - Run
+  - **Soal 8**
+    - Jelaskan maksud kode langkah 1-3!
+
+      Pada langkah 1, variabel transformer ditambahkan di dalam kelas _StreamHomePageState untuk menampung objek StreamTransformer, yaitu komponen yang digunakan untuk memproses data sebelum dikirim ke pendengar (listener). Pada langkah 2, objek transformer diinisialisasi di dalam initState() menggunakan StreamTransformer.fromHandlers, yang berfungsi mengubah setiap data yang masuk menjadi hasil kali sepuluh, serta mengirim nilai -1 jika terjadi error. Kemudian pada langkah 3, stream diubah agar melewati proses transformasi tersebut dengan menambahkan .transform(transformer) sebelum .listen(), sehingga setiap data yang diterima di listen sudah melalui proses pengolahan atau penanganan error sesuai yang didefinisikan di transformer.
+
+    - Capture hasil 
+
+        ![hasilprak3](img/hasilprak3.gif)
