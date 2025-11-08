@@ -106,3 +106,52 @@
     - Apa maksud isi perintah kode tersebut?
 
       Perintah kode tersebut untuk membuat aliran data yang mengeluarkan warna berbeda setiap detik secara berulang.
+
+- Langkah 7 - Impor file pada main.dart
+  ```dart
+  import 'stream.dart';
+  ```
+- Langkah 8 - Tambah variabel
+  ```dart
+  Color bgColor = Colors.blueGrey;
+  late ColorStream colorStream;
+  ```
+- Langkah 9 - Tambah method changeColor()
+  ```dart
+    void changeColor() async {
+      await for (var eventColor in colorStream.getColors()) {
+        setState(() {
+          bgColor = eventColor;
+        });
+      }
+    }
+  ```
+- Langkah 10 - Lakukan override initState()
+  ```dart
+    @override
+    void initState() {
+      super.initState();
+      colorStream = ColorStream();
+      changeColor();
+    }
+  ```
+- Langkah 11 - Ubah isi Scaffold()
+  ```dart
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Stream'),
+      ),
+      body: Container(
+        decoration: BoxDecoration(color: bgColor),
+      ),
+    );
+  }
+  ```
+- Langkah 12 - Run
+  - **Soal 4**
+
+    Capture Hasil 
+
+    ![hasilprak1](img/prak1/hasil.gif)
