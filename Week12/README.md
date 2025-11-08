@@ -155,3 +155,18 @@
     Capture Hasil 
 
     ![hasilprak1](img/prak1/hasil.gif)
+
+
+- Langkah 13 - Ganti isi method changeColor()
+  ```dart
+      ColorStream().getColors().listen((eventColor) {
+      setState(() {
+        bgColor = eventColor;
+      });
+    });
+  ```
+  - Soal 5 
+
+    Jelaskan perbedaan menggunakan listen dan await for!
+
+    Metode listen digunakan untuk mendaftarkan callback yang akan dijalankan setiap kali stream mengirim data baru, sehingga cocok digunakan tanpa perlu menghentikan eksekusi program utama. Sementara itu, await for digunakan di dalam fungsi asinkron untuk menunggu setiap data dari stream secara berurutan, seperti melakukan perulangan yang menunggu setiap elemen sebelum melanjutkan ke berikutnya.
