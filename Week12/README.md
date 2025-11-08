@@ -83,3 +83,26 @@
     Colors.orangeAccent,
     Colors.lime
     ```
+- Langkah 5 - Tambah method getColors()
+  ```dart
+    Stream<Color> getColors() async* {
+    
+  }
+  ```
+- Langkah 6 - Tambah perintah yield*
+  ```dart
+    Stream<Color> getColors() async* {
+        yield* Stream.periodic(const Duration(seconds: 1), (int t) {
+        int index = t % _colors.length;
+        return _colors[index];
+        });
+    }
+  ```
+  - **Soal 3**
+    - Jelaskan fungsi keyword yield*!
+
+      Keyword yield digunakan dalam fungsi generator di Dart untuk menghasilkan data secara bertahap. Saat dijalankan, yield akan mengeluarkan satu nilai tanpa menghentikan fungsi sepenuhnya, sehingga fungsi dapat dilanjutkan kembali pada pemanggilan berikutnya. Pada fungsi bertipe async*, yield menghasilkan aliran data berbentuk Stream, sedangkan pada sync* menghasilkan Iterable. Dengan cara ini, data dapat dikirim satu per satu secara efisien tanpa harus disimpan semua sekaligus di memori.
+
+    - Apa maksud isi perintah kode tersebut?
+
+      Perintah kode tersebut untuk membuat aliran data yang mengeluarkan warna berbeda setiap detik secara berulang.
