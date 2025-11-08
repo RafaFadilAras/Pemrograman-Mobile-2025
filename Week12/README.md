@@ -416,3 +416,55 @@
     - Capture hasil 
 
         ![hasilprak4](img/hasilprak4.gif)
+
+## Praktikum 5 - Multiple stream subscriptions
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Tambah variabel baru di class _StreamHomePageState
+  ```dart
+  late StreamSubscription subscription2;
+  String values = '';
+  ```
+- Langkah 2 - Edit initState()
+  ```dart
+      Stream stream = numberStreamController.stream;
+    subscription = stream.listen((event) {
+      setState(() {
+        values += '$event - ';
+      });
+    });
+
+    subscription2 = stream.listen((event) {
+      setState(() {
+        values += '$event - ';
+      });
+    });
+  ```
+- Langkah 3 - Run
+  ![hasilrunprak5](img/hasilrunprak5.png)
+  - **Soal 10**
+
+    Jelaskan mengapa error itu terjadi!
+
+    Error tersebut terjadi karena ada dua listener (subscription dan subscription2) yang mencoba mendengarkan stream yang sama, yaitu numberStreamController.stream.
+    Namun, stream standar di Dart bersifat single-subscription, sehingga hanya satu listener yang boleh aktif. Saat listener kedua mencoba mendengarkan stream yang sudah punya listener pertama, Flutter langsung menampilkan error tersebut.
+
+- Langkah 4 - Set broadcast stream
+  ```dart
+  Stream stream = numberStreamController.stream.asBroadcastStream();
+  ```
+- Langkah 5 - Edit method build()
+  ```dart
+  Text(values),
+  ```
+- Langkah 6 - Run
+  - **Soal 11**
+    - Jelaskan mengapa hal itu bisa terjadi!
+
+      karena pada kode di initState(), dibuat dua listener (subscription dan subscription2) yang keduanya mendengarkan stream yang sama. Setelah stream diubah menjadi broadcast stream, satu stream bisa diakses oleh banyak listener sekaligus tanpa error.
+
+    - Capture hasil 
+  
+      ![hasilprak5](img/hasilprak5.gif)
+
