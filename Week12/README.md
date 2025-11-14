@@ -584,3 +584,115 @@
 
         ![hasilprak6](img/hasilprak6.gif)
 
+## Praktikum 7 - BLoC Pattern
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buat project baru
+- Langkah 2 - Isi kode random_bloc.dart
+  ```dart
+  import 'dart:async';
+  import 'dart:math';
+  ```
+- Langkah 3 - Buat class RandomNumberBloc()
+  ```dart
+  class RandomNumberBloc {
+  
+  }
+  ```
+- Langkah 4 - Buat variabel StreamController
+  ```dart
+    final _generateRandomController = StreamController<void>();
+    final _randomNumberController = StreamController<int>();
+    final _secondsStreamController = StreamController<int>();
+    Sink<void> get generateRandom => _generateRandomController.sink;
+    Stream<int> get randomNumber => _randomNumberController.stream;
+    Stream<int> get secondsRandomNumber => _secondsStreamController.stream;
+  ```
+- Langkah 5 - Buat constructor
+  ```dart
+    RandomNumberBloc() {
+    _generateRandomController.stream.listen((_) {
+      final random = Random().nextInt(10);
+      _randomNumberController.sink.add(random);
+    });
+  }
+  ```
+- Langkah 6 - Buat method dispose()
+  ```dart
+    void dispose() {
+    _generateRandomController.close();
+    _randomNumberController.close();
+  }
+  ```
+- Langkah 7 - Edit main.dart
+  ```dart
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const RandomScreen(),
+    );
+  }
+  ```
+- Langkah 8 - Buat file baru random_screen.dart
+- Langkah 9 - Lakukan impor material dan random_bloc.dart
+  ```dart
+  import 'package:flutter/material.dart';
+  import 'random_bloc.dart';
+  ```
+- Langkah 10 - Buat StatefulWidget RandomScreen
+  ```dart
+  class RandomScreen extends StatefulWidget {
+    @override
+    _RandomScreenState createState() => _RandomScreenState();
+  }
+  ```
+- Langkah 11 - Buat variabel
+  ```dart
+  final _bloc = RandomNumberBloc();
+  ```
+- Langkah 12 - Buat method dispose()
+  ```dart
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
+  }
+  ```
+- Langkah 13 - Edit method build()
+  ```dart
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Random Number')),
+      body: Center(
+        child: StreamBuilder<int>(
+          stream: _bloc.randomNumber,
+          initialData: 0,
+          builder: (context, snapshot) {
+            return Text(
+              'Random Number: ${snapshot.data}',
+              style: const TextStyle(fontSize: 24),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _bloc.generateRandom.add(null),
+        child: const Icon(Icons.refresh),
+      ),
+    );
+  }
+  ```
+  - **Soal 13**
+    - Jelaskan maksud praktikum ini! Dimana letak konsep pada BLoC nya?
+
+      Praktikum ini bertujuan untuk memisahkan tampilan (UI) dari Logika Bisnis menggunakan pola BLoC. Konsep BLoC-nya terletak pada bagaimana keduanya berkomunikasi: UI di file random_screen.dart hanya bertugas mengirim "perintah" (seperti klik tombol) ke sebuah Sink (pintu masuk) milik BLoC. File random_bloc.dart menerima perintah itu, menjalankan logikanya (membuat angka acak), lalu mengirimkan hasilnya kembali melalui sebuah Stream (aliran data). UI kemudian menggunakan StreamBuilder untuk "mendengarkan" Stream tersebut dan secara otomatis memperbarui tampilan setiap kali ada data baru, sehingga logika dan tampilan tetap terpisah rapi.
+
+    - Capture hasil 
+  
+      ![hasilprak7](img/hasilprak7.gif)
+
