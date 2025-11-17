@@ -135,7 +135,7 @@
     - Hasil 
   
         ![hasilsoal2](img/soal2.png)
-
+        
 - Langkah 11 - Buat file baru pizza.dart
 - Langkah 12 - Model pizza.dart
   ```dart
@@ -212,4 +212,68 @@
     - Hasil 
   
         ![hasilprak1](img/soal3.png)
+
+- Langkah 23 - Tambahkan Method toJson() (Serialization)
+  ```dart
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'pizzaName': pizzaName,
+      'description': description,
+      'price': price,
+      'imageUrl': imageUrl,
+    };
+  }
+  ```
+- Langkah 24 - Buat Fungsi Konversi JSON String
+  ```dart
+  String convertToJSON(List<Pizza> pizzas) {
+    return jsonEncode(pizzas.map((pizza) => jsonEncode(pizza)).toList());
+  }
+  ```
+- Langkah 25 - Tampilkan Output JSON di Konsol
+  ```dart
+    String convertToJSON(List<Pizza> pizzas) {
+    return jsonEncode(pizzas.map((pizza) => jsonEncode(pizza)).toList());
+  }
+  ```
+- Langkah 26 - Cek Output Konsol
+  ![hasilprak1](img/prak1.png)
+
+## Praktikum 2 - Handle kompatibilitas data JSON
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Simulasikan Error
+- Langkah 2 - Lihat Error Tipe Data String ke Int
+- Langkah 3 - Terapkan tryParse dan Null Coalescing pada ID
+  ```dart
+  id = int.tryParse(json['id'].toString()) ?? 0,
+  ```
+- Langkah 4 - Simulasikan Error Null pada String
+- Langkah 5 - Terapkan Null Coalescing pada String
+  ```dart
+  imageUrl = json['imageUrl'] ?? '';
+  ```
+- Langkah 6 - Gunakan toString() untuk Field String
+  ```dart
+  pizzaName = json['pizzaName'].toString(),
+  description = json['description'].toString(),
+  ```
+- Langkah 7 - Simulasikan Error Tipe Data String ke Double
+- Langkah 8 - Terapkan double.tryParse
+  ```dart
+  price = double.tryParse(json['price'].toString()) ?? 0,
+  ```
+- Langkah 9 - Run dan Perhatikan Output Null
+  ![null](img/null.png)
+- Langkah 10 - Tambahkan Operator Ternary untuk Output User-Friendly
+  ```dart
+    pizzaName = json['pizzaName'] != null ? json['pizzaName'].toString() : 'No name',
+    description = (json['description'] != null) ? json['description'].toString() : '',
+  ```
+- Langkah 11 - Run
+  - **Soal 4**
+    - Hasil 
+        ![hasilprak2](img/soal4.png)
 
