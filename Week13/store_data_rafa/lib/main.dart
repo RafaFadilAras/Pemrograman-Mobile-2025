@@ -33,7 +33,21 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('JSON')),
-      body: Container(),
+      body: Text(pizzaString),
     );
+  }
+
+  Future readJsonFile() async {
+    String myString = await DefaultAssetBundle.of(context)
+    .loadString('assets/pizzalist.json');
+    setState(() {
+      pizzaString = myString;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readJsonFile(); 
   }
 }
