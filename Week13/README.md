@@ -277,3 +277,44 @@
     - Hasil 
         ![hasilprak2](img/soal4.png)
 
+## Praktikum 3 - Menangani error JSON
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Buka pizza.dart dan Buat Konstanta
+  ```dart
+  const keyId = 'id';
+  const keyName = 'pizzaName';
+  const keyDescription = 'description';
+  const keyPrice = 'price';
+  const keyImage = 'imageUrl';
+  ```
+- Langkah 2 - Perbarui fromJson() menggunakan Konstanta
+  ```dart
+    Pizza.fromJson(Map<String, dynamic> json) : 
+    id = int.tryParse(json[keyId].toString()) ?? 0,
+    pizzaName = json[keyName] != null ? json[keyName].toString() : 'No name',
+    description = (json[keyDescription] != null) ? json[keyDescription].toString() : '',
+    price = double.tryParse(json[keyPrice].toString()) ?? 0,
+    imageUrl = json[keyImage] ?? '';
+  ```
+- Langkah 3 - Perbarui toJson() menggunakan Konstanta
+  ```dart
+    Map<String, dynamic> toJson() {
+    return {
+      keyId: id,
+      keyName: pizzaName,
+      keyDescription: description,
+      keyPrice: price,
+      keyImage: imageUrl,
+    };
+  }
+  ```
+- Langkah 4 - Run
+  - **Soal 5**
+    - Jelaskan maksud kode lebih safe dan maintainable
+    - 
+      Kode pada praktikum ini lebih aman karena setiap data dari JSON dicek terlebih dahulu sebelum digunakan. Angka diproses dengan tryPasrse agar aplikasi tidak error jika datanya kosong. FIeld teks dicek null dan diberi nilai cadangan, sehingga UI tetap stabil. Penggunaan konstanta untuk nama key membuat kode lebih mudah untuk maintanance karena jika ada perubahan nama field, cukup diperbarui di satu tempat saja, sehingga hasil kode lebih tahan terhadap data yang tidak konsisten dan mudah dipahami. 
+    - Hasil 
+        ![hasilprak3](img/soal5.png)
+
