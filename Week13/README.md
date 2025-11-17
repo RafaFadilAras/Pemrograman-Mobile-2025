@@ -133,4 +133,83 @@
 - Langkah 10 - Run
   - **Soal 2**
     - Hasil 
+  
         ![hasilsoal2](img/soal2.png)
+
+- Langkah 11 - Buat file baru pizza.dart
+- Langkah 12 - Model pizza.dart
+  ```dart
+  class Pizza {
+    final int id;
+    final String pizzaName;
+    final String description;
+    final double price;
+    final String imageUrl;
+  }
+  ```
+- Langkah 13 - Buat constructor()
+  ```dart
+  Pizza.fromJson(Map<String, dynamic> json) : 
+    id = json['id'],
+    pizzaName = json['pizza_name'],
+    description = json['description'],
+    price = json['price'].toDouble(),
+    imageUrl = json['image_url'];
+  ```
+- Langkah 14 - Pindah ke class _MyHomePageState
+  ```dart
+  Future readJsonFile() async {
+    String myString = await DefaultAssetBundle.of(context)
+    .loadString('assets/pizzalist.json');
+    List pizzaMapList = jsonDecode(myString);
+  }
+  ```
+- Langkah 15 - Pastikan impor class
+  ```dart
+  import 'dart:convert';
+  import './model/pizza.dart';
+  ```
+- Langkah 16 - Konversi List Map ke List Objek Dart
+  ```dart
+  List<Pizza> myPizzas = [];
+    for (var pizza in pizzaMapList) {
+      Pizza myPizza = Pizza.fromJson(pizza);
+      myPizzas.add(myPizza);
+  }
+  ```
+- Langkah 17 - return myPizzas
+  ```dart
+  return myPizzas;
+  ```
+- Langkah 18 - Perbarui Signature Method
+  ```dart
+  Future<List<Pizza>>readJsonFile() async {
+  ```
+- Langkah 19 - Deklarasikan Variabel State
+  ```dart
+  List<Pizza> myPizzas = [];
+  ```
+- Langkah 20 - Panggil di initState dan Perbarui State
+  ```dart
+  readJsonFile().then((value) {
+    setState(() {
+      myPizzas = value;
+    });
+  }); 
+  ```
+- Langkah 21 - Tampilkan Data di ListView
+  ```dart
+  body: ListView.builder(
+    itemCount: myPizzas.length,
+    itemBuilder: (context, index) {
+      return ListTile(
+        title: Text(myPizzas[index].pizzaName),
+        subtitle: Text(myPizzas[index].description),
+  );;
+  ```
+- Langkah 22 - Run
+  - **Soal 3**
+    - Hasil 
+  
+        ![hasilprak1](img/soal3.png)
+
