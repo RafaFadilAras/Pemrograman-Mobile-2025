@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import './model/pizza.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,6 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Pizza> myPizzas = [];
   int appCounter = 0;
 
+  String documentsPath = '';
+  String tempPath = '';
+
   // @override
   // Widget build(BuildContext context) {
   //   return Scaffold(
@@ -50,28 +54,42 @@ class _MyHomePageState extends State<MyHomePage> {
   //   );
   // }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(title: const Text('JSON')),
-    body: Center(
-      child: Column(
+// @override
+// Widget build(BuildContext context) {
+//   return Scaffold(
+//     appBar: AppBar(title: const Text('JSON')),
+//     body: Center(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           Text(
+//             'You have opened this app $appCounter times.',
+//           ),
+//           ElevatedButton(
+//             onPressed: () {
+//               deletePreference();
+//             },
+//             child: const Text('Reset Counter'),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Path Provider')),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-            'You have opened this app $appCounter times.',
-          ),
-          ElevatedButton(
-            onPressed: () {
-              deletePreference();
-            },
-            child: const Text('Reset Counter'),
-          ),
+          Text('Doc path: $documentsPath'),
+          Text('Temp path: $tempPath'),
         ],
       ),
-    ),
-  );
-}
+    );
+  }
 
   // Future readJsonFile() async {
   //   String myString = await DefaultAssetBundle.of(context)
@@ -117,6 +135,15 @@ Widget build(BuildContext context) {
     });
   }
 
+  Future getPaths() async {
+    final docDir = await getApplicationDocumentsDirectory();
+    final tempDir = await getTemporaryDirectory();
+      setState(() {
+        documentsPath = docDir.path;
+        tempPath = tempDir.path;
+      });
+  }
+
   String convertToJSON(List<Pizza> pizzas) {
     return jsonEncode(pizzas.map((pizza) => jsonEncode(pizza)).toList());
   }
@@ -124,6 +151,7 @@ Widget build(BuildContext context) {
   @override
   void initState() {
     super.initState();
+      getPaths();
       readAndWritePreference();
       readJsonFile().then((value) {
         setState(() {

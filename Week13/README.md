@@ -409,3 +409,56 @@
     - Hasil 
         ![hasilprak4](img/soal6.gif)
 
+## Praktikum 5 - Akses filesystem dengan path_provider
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Tambahkan Dependensi
+  ```dart
+  flutter pub add path_provider
+  ```
+- Langkah 2 - Lakukan Import
+  ```dart
+  import 'package:path_provider/path_provider.dart';
+  ```
+- Langkah 3 - Tambahkan Variabel Path State
+  ```dart
+  String documentsPath = '';
+  String tempPath = '';
+  ```
+- Langkah 4 - Buat Method getPaths()
+  ```dart
+  Future getPaths() async {
+    final docDir = await getApplicationDocumentsDirectory();
+    final tempDir = await getTemporaryDirectory();
+      setState(() {
+        documentsPath = docDir.path;
+        tempPath = tempDir.path;
+      });
+  }
+  ```
+- Langkah 5 - Panggil getPaths() di initState()
+  ```dart
+  getPaths();
+  ```
+- Langkah 6 - Perbarui Tampilan
+  ```dart
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Path Provider')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text('Doc path: $documentsPath'),
+          Text('Temp path: $tempPath'),
+        ],
+      ),
+    );
+  }
+  ```
+- Langkah 7 - Run
+  - **Soal 7**
+    - Hasil 
+        ![hasilprak5](img/soal7.png)
+
