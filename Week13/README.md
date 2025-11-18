@@ -266,7 +266,9 @@
   price = double.tryParse(json['price'].toString()) ?? 0,
   ```
 - Langkah 9 - Run dan Perhatikan Output Null
+  
   ![null](img/null.png)
+
 - Langkah 10 - Tambahkan Operator Ternary untuk Output User-Friendly
   ```dart
     pizzaName = json['pizzaName'] != null ? json['pizzaName'].toString() : 'No name',
@@ -275,6 +277,7 @@
 - Langkah 11 - Run
   - **Soal 4**
     - Hasil 
+  
         ![hasilprak2](img/soal4.png)
 
 ## Praktikum 3 - Menangani error JSON
@@ -316,6 +319,7 @@
     - 
       Kode pada praktikum ini lebih aman karena setiap data dari JSON dicek terlebih dahulu sebelum digunakan. Angka diproses dengan tryPasrse agar aplikasi tidak error jika datanya kosong. FIeld teks dicek null dan diberi nilai cadangan, sehingga UI tetap stabil. Penggunaan konstanta untuk nama key membuat kode lebih mudah untuk maintanance karena jika ada perubahan nama field, cukup diperbarui di satu tempat saja, sehingga hasil kode lebih tahan terhadap data yang tidak konsisten dan mudah dipahami. 
     - Hasil 
+  
         ![hasilprak3](img/soal5.png)
 
 ## Praktikum 4 - SharedPreferences
@@ -407,6 +411,7 @@
 - Langkah 15 - Run
   - **Soal 6**
     - Hasil 
+  
         ![hasilprak4](img/soal6.gif)
 
 ## Praktikum 5 - Akses filesystem dengan path_provider
@@ -460,5 +465,80 @@
 - Langkah 7 - Run
   - **Soal 7**
     - Hasil 
+  
         ![hasilprak5](img/soal7.png)
+
+## Praktikum 6 - Akses filesystem dengan direktori
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Lakukan Import dart:io
+  ```dart
+  import 'dart:io';
+  ```
+- Langkah 2 - Tambahkan Variabel File dan Text
+  ```dart
+  late File myFile;
+  String fileText='';
+  ```
+- Langkah 3 - Buat Method writeFile()
+  ```dart
+  Future<bool> writeFile() async {
+    try {
+      await myFile.writeAsString('Margherita, Capricciosa, Napoli');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  ```
+- Langkah 4 - Inisialisasi File dan Panggil writeFile() di initState()
+  ```dart
+  @override
+  void initState() {
+    getPaths().then((_) {
+      myFile = File('$documentsPath/pizzas.txt');
+      writeFile();
+    });
+    super.initState();
+  }
+  ```
+- Langkah 5 - Buat Method readFile()
+  ```dart
+  Future<bool> readFile() async {
+    try {
+      String fileContent = await myFile.readAsString();
+      setState(() {
+        fileText = fileContent;
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  ```
+- Langkah 6 - Edit build() dan Tambahkan Tombol Baca
+  ```dart
+        children: [
+        Text('Doc path' + documentsPath),
+        Text('Temp path' + tempPath),
+
+        ElevatedButton(
+          onPressed: () {
+            readFile();
+          },
+          child: const Text('Read File'),
+        ),
+
+        Text(fileText),
+  ```
+- Langkah 7 - Run
+  - **Soal 8**
+    - Jelaskan maksud kode pada langkah 3 dan 7
+
+      Pada langkah 3 terdapat method writeFile() yang merupakan fungsi asynchronous yang menuliskan teks ke dalam file melalui perintah myFile.writeAsString('2341720007, Rafa Fadil Aras'). Jika proses ini berjalan lancar, method mengembalikan true, dan jika terjadi error maka akan mengembalikan false. Hasil yang di tampilkan di layar adalah path untuk folder dokumen dan folder cache dan saat tombol Read File ditekan, akan menampilkan isi NIM dan Nama.
+
+    - Hasil 
+  
+        ![hasilrun](img/soal8.gif)
 
