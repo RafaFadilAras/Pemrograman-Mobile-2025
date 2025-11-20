@@ -542,3 +542,69 @@
   
         ![hasilrun](img/soal8.gif)
 
+## Praktikum 7 - Menyimpan data dengan enkripsi/dekripsi
+
+### Langkah-langkah praktikum 
+
+- Langkah 1 - Tambahkan Dependensi
+  ```dart
+  flutter pub add flutter_secure_storage
+  ```
+- Langkah 2 - Lakukan Import
+  ```dart
+  import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+  ```
+- Langkah 3 - Tambahkan Variabel dan Controller
+  ```dart
+  final pwdController = TextEditingController();
+  String myPass = '';
+  ```
+- Langkah 4 - Inisialisasi Secure Storage
+  ```dart
+  final storage = const FlutterSecureStorage();
+  final myKey = 'myPass';
+  ```
+- Langkah 5 - Buat Method writeToSecureStorage()
+  ```dart
+  Future writeToSecureStorage() async {
+    await storage.write(key: myKey, value: pwdController.text);
+  }
+  ```
+- Langkah 6 - Buat Method readFromSecureStorage()
+  ```dart
+  Future<String> readFromSecureStorage() async {
+    String secret = await storage.read(key: myKey) ?? '';
+    return secret;
+  }
+  ```
+- Langkah 7 - Edit build() untuk UI dan Logic
+  ```dart
+          TextField(
+          controller: pwdController,
+        ),
+
+        ElevatedButton(
+          child: const Text('Save Value'),
+          onPressed: () {
+            writeToSecureStorage();
+          },
+        ),
+  ```
+- Langkah 8 - Hubungkan Read ke Tombol
+  ```dart
+          ElevatedButton(
+          child: Text('Read Value'),
+          onPressed: () {
+            readFromSecureStorage().then((value) {
+              setState(() {
+                myPass = value;
+              });
+            });
+          },
+        ),
+  ```
+- Langkah 9 - Run
+  - **Soal 8**
+    - Hasil 
+
+        ![hasilprak7](img/soal9.gif)

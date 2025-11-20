@@ -4,6 +4,7 @@ import './model/pizza.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,6 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late File myFile;
   String fileText='';
+
+  final pwdController = TextEditingController();
+  String myPass = '';
+
+  final storage = const FlutterSecureStorage();
+  final myKey = 'myPass';
 
   // @override
   // Widget build(BuildContext context) {
@@ -91,11 +98,35 @@ class _MyHomePageState extends State<MyHomePage> {
           Text('Doc path' + documentsPath),
           Text('Temp path' + tempPath),
 
+          TextField(
+            controller: pwdController,
+            decoration: const InputDecoration(
+              labelText: 'Masukkan Password',
+              border: OutlineInputBorder(),
+            ),
+          ),
+
           ElevatedButton(
+            child: const Text('Save Value'),
             onPressed: () {
-              readFile();
+              writeToSecureStorage();
             },
-            child: const Text('Read File'),
+          ),
+
+          ElevatedButton(
+            child: const Text('Read Value'),
+            onPressed: () {
+              readFromSecureStorage().then((value) {
+                setState(() {
+                  myPass = value;
+                });
+              });
+            },
+          ),
+
+          Text(
+            "Stored Value: $myPass",
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
 
           Text(fileText),
@@ -177,6 +208,15 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       return false;
     }
+  }
+
+  Future writeToSecureStorage() async {
+    await storage.write(key: myKey, value: pwdController.text);
+  }
+
+  Future<String> readFromSecureStorage() async {
+    String secret = await storage.read(key: myKey) ?? '';
+    return secret;
   }
 
   String convertToJSON(List<Pizza> pizzas) {
